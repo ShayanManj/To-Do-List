@@ -1,0 +1,55 @@
+<input [(ngModel)]="newTask" placeholder="Add a new task" class="input-field">
+<button (click)="addTask()" class="addtask-button">Add Task</button>
+<div cdkDropListGroup>
+<div class="example-container">
+  <h2>Active</h2>
+
+  <div
+    cdkDropList
+    [cdkDropListData]="activeTasks"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <!-- ... (existing code) -->
+
+<div class="example-box" *ngFor="let task of activeTasks" cdkDrag>
+    <div class="task-item">
+      <span class="active-t"*ngIf="!task.editing">{{ task.text }}</span>
+      <input *ngIf="task.editing" [(ngModel)]="task.text" (keydown.enter)="saveTask(task)" (keydown.esc)="cancelEditing(task)" class="input-field">
+      <div class="action-buttons">
+        <button
+          *ngIf="!task.editing"
+          (click)="task.completed = true; onTaskCompletionChange(task)"
+          class="action-button complete-button">Complete</button>
+        <button
+          *ngIf="!task.editing"
+          (click)="startEditing(task)"
+          class="action-button edit-button">Edit</button>
+        <button
+          (click)="deleteTask(task)"
+          class="action-button delete-button">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ... (rest of the code) -->
+  
+  </div>
+</div>
+
+<div class="example-container">
+  <h2>Completed</h2>
+
+  <div
+    cdkDropList
+    [cdkDropListData]="completedTasks"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let task of completedTasks" cdkDrag>
+      <div class="task-item">
+        <span class="completed">{{ task.text }}</span>
+        <button (click)="deleteTask(task)" class="action-button delete-button" >Delete</button>
+      </div>
+  </div>
+</div>
+</div>
+
